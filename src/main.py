@@ -1,3 +1,4 @@
+import sys
 from file_management import migrate_files, generate_page, generate_pages_recursive
 
 #text_type = TextType.LINK
@@ -17,48 +18,23 @@ from file_management import migrate_files, generate_page, generate_pages_recursi
 #self.assertEqual(html_node.tag, None)
 #self.assertEqual(html_node.value, "This is a text node")
 
-# Run the following CLI to start a browser:
+# Run the following CLI to start a browser (currently handled in main.sh):
 '''
 cd public
 python3 -m http.server 8888
 '''
-backup_path, log_path = migrate_files("static", "public")
+
+if len(sys.argv) > 1:
+    basepath = sys.argv[1]
+else:
+    basepath = "/"
+
+backup_path, log_path = migrate_files("static", "docs")
 print(f"Backup: {backup_path}")
 print(f"Log: {log_path}")
 
-'''
-generate_page("content/index.md", 
-              "template.html", 
-              "public/index.html",
-              )
-
-generate_page("content/blog/glorfindel/index.md",
-              "template.html",
-              "public/blog/glorfindel/index.html",
-)
-
-generate_page("content/blog/tom/index.md",
-              "template.html",
-              "public/blog/tom/index.html",
-)
-
-generate_page("content/blog/majesty/index.md",
-              "template.html",
-              "public/blog/majesty/index.html",
-)
-
-generate_page("content/contact/index.md",
-              "template.html",
-              "public/contact/index.html",
-)
-
-
-    # template_path: str | Path,
-    # dest_path: str | Path,
-    # )
-'''
-
-generate_pages_recursive("content", 
+generate_pages_recursive(basepath,
+                         "content", 
                          "template.html", 
-                         "public",
+                         "docs",
                         )

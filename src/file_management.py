@@ -5,6 +5,7 @@ import sys
 src_path = str(Path(__file__).resolve().parent / "src")
 if src_path not in sys.path:
     sys.path.insert(0, src_path)
+from block_code import extract_title, markdown_to_html_node
 # import shutil
 # NOTE: replacing shutil scripts sacrifices preservation of copied files' metadata (timestamps) and permissions 
 
@@ -112,6 +113,7 @@ def migrate_files(
 
 
 def generate_page(
+    basepath: str | Path,
     from_path: str | Path,
     template_path: str | Path,
     dest_path: str | Path,
@@ -130,26 +132,27 @@ def generate_page(
 
     # The source modules use flat imports, so make src/ importable when this
     # project-root module is run as part of the `src` package.
-    src_path = str(Path(__file__).resolve().parent / "src")
-    if src_path not in sys.path:
-        sys.path.insert(0, src_path)
+    # src_path = str(Path(__file__).resolve().parent / "src")
+    # if src_path not in sys.path:
+    #     sys.path.insert(0, src_path)
 
-    from block_code import extract_title, markdown_to_html_node
+#    from block_code import extract_title, markdown_to_html_node
 
     content = markdown_to_html_node(markdown).to_html()
     title = extract_title(markdown)
-    page = template.replace("{{ Title }}", title).replace("{{ Content }}", content)
+    page = template.replace("{{ Title }}", title).replace("{{ Content }}", content).replace('href="/', 'href="{basepath}')
 
     destination_path.parent.mkdir(parents=True, exist_ok=True)
     destination_path.write_text(page, encoding="utf-8")
 
 
-def generate_pages_recursive(dir_path_content, 
-                             template_path, 
-                             dest_dir_path,
+def generate_pages_recursive(basepath: str,
+                             dir_path_content: str | Path, 
+                             template_path: str | Path, 
+                             dest_dir_path: str | Path,
                              ) -> None:
     
-    from block_code import extract_title, markdown_to_html_node
+#    from block_code import extract_title, markdown_to_html_node
 
     root = Path.cwd().resolve()
     source = (root / dir_path_content).resolve()
@@ -201,6 +204,7 @@ def generate_pages_recursive(dir_path_content,
                     template_html
                     .replace("{{ Title }}", title)
                     .replace("{{ Content }}", content)
+                    .replace('href="/', 'href="{basepath}')
                 )
 
                 output_path = dest_path / item.with_suffix(".html").name
