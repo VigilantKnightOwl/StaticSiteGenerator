@@ -1,0 +1,8 @@
+BACKUP FILE /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/public/index.html -> /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/backups/public_20261116_214528/index.html
+BACKUP FILE /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/public/styles.css -> /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/backups/public_20261116_214528/styles.css
+DELETE FILE /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/public/index.html
+DELETE FILE /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/public/styles.css
+MOVE DIR  /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/static/images -> /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/public/images
+MOVE FILE /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/static/images/tolkien.png -> /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/public/images/tolkien.png
+MOVE FILE /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/static/images/tolkien.png:Zone.Identifier -> /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/public/images/tolkien.png:Zone.Identifier
+MOVE FILE /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/static/index.css -> /home/ericm/myworkspace/bootdev/curriculum/StaticSiteGenerator/public/index.css

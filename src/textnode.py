@@ -1,5 +1,5 @@
 from enum import Enum
-from htmlnode import LeafNode
+from htmlnode import HTMLNode, LeafNode
 
 
 class TextType(Enum):
@@ -22,7 +22,9 @@ class TextNode:
         return False
 
     def __repr__(self) -> str:
-        return f"TextNode({self.text}, {self.text_type.value}, {self.url}"
+        if self.url is None:
+            return f'TextNode("{self.text}", {self.text_type})'
+        return f'TextNode("{self.text}", {self.text_type}, "{self.url}")'
 
 def text_node_to_html_node(text_node: TextNode) -> LeafNode:
     if text_node.text_type == TextType.TEXT:
@@ -35,24 +37,23 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
         result = LeafNode("code", text_node.text)
     elif text_node.text_type == TextType.LINK:
         if text_node.url is None:
-            raise ValueError("A URL is required for a link")
+            raise ValueError("invalid URL. a valid URL is required for a link")
         if text_node.text is None:
             raise ValueError("Anchor text is required for an image")
         props: dict[str, str] = {"href": text_node.url}
         result = LeafNode("a", f"[{text_node.text}]", props)
     elif text_node.text_type == TextType.IMAGE:
         if text_node.url is None:
-            raise ValueError("A URL is required for an image")
+            raise ValueError("invalid URL. a URL is required for an image")
         result = LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
     else:
-        raise ValueError("No valid Text Type found")
+        raise ValueError("invalid text type: {text_node.text_type}")
     return result
 
 #node = TextNode("This is a Link", TextType.LINK, "https://www.boot.dev")
 #html_node = text_node_to_html_node(node)
 #print(text_node_to_html_node(node))
 
-node = TextNode("This is an Image", TextType.IMAGE, "https://www.google.com")
-html_node = text_node_to_html_node(node)
-print(text_node_to_html_node(node))
-
+#node = TextNode("This is an Image", None, "https://www.google.com")
+#html_node = text_node_to_html_node(node)
+#print(text_node_to_html_node(node))

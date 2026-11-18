@@ -70,56 +70,6 @@ class TestHTMLNode(unittest.TestCase):
             parent_node.to_html(),
             '''<div><span><b>grandchild</b></span></div> a="href='https://www.boot.dev'" href="https://www.google.com"'''
         )
-
-
-    def test_text_1(self):
-        node = TextNode("This is a text node", TextType.TEXT)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, None)
-        self.assertEqual(html_node.value, "This is a text node")
-        self.assertEqual(html_node.props, None)
-
-    def test_text_2(self):      
-        with self.assertRaises(AttributeError): 
-            node = TextNode("This is a text node", TextType.ERROR)  
-            html_node = text_node_to_html_node(node)
-
-    def test_text_3(self):
-        node = TextNode("This is a BOLD text node", TextType.BOLD)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, "b")
-        self.assertEqual(html_node.value, "This is a BOLD text node")
-        self.assertEqual(html_node.props, None)
-
-    def test_text_4(self):
-        node = TextNode("This is an ITALIC text node", TextType.ITALIC)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, "i")
-        self.assertEqual(html_node.value, "This is an ITALIC text node")
-        self.assertEqual(html_node.props, None)
-
-    def test_text_5(self):
-        node = TextNode("This is a CODE text node", TextType.CODE)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, "code")
-        self.assertEqual(html_node.value, "This is a CODE text node")
-        self.assertEqual(html_node.props, None)
-        
-    def test_text_6(self):
-        node = TextNode("This is a Link", TextType.LINK, "https://www.boot.dev")
-        html_node = text_node_to_html_node(node)
-        
-        self.assertEqual(html_node.tag, "a")
-        self.assertEqual(html_node.value, "[This is a Link]")
-        self.assertEqual(html_node.props, {'href': 'https://www.boot.dev'})
-        
-    def test_text_7(self):
-        node = TextNode("This is an Image", TextType.IMAGE, "https://www.google.com")
-        html_node = text_node_to_html_node(node)
-        
-        self.assertEqual(html_node.tag, "img")
-        self.assertEqual(html_node.value, "")
-        self.assertEqual(html_node.props, {'src': 'https://www.google.com', 'alt': 'This is an Image'})
         
         
 

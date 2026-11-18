@@ -1,2 +1,5 @@
 __pycache__/
 src/test6.py
+public/
+backups/
+execution_logs/
