@@ -140,7 +140,7 @@ def generate_page(
 
     content = markdown_to_html_node(markdown).to_html()
     title = extract_title(markdown)
-    page = template.replace("{{ Title }}", title).replace("{{ Content }}", content).replace('href="/', 'href="{basepath}')
+    page = template.replace("{{ Title }}", title).replace("{{ Content }}", content).replace('href="/', f'href="{basepath}')
 
     destination_path.parent.mkdir(parents=True, exist_ok=True)
     destination_path.write_text(page, encoding="utf-8")
@@ -182,6 +182,7 @@ def generate_pages_recursive(basepath: str,
     destination_path = Path(dest_dir_path)
 
     def generate_from_contents(
+        basepath: str | Path,
         from_path: Path,
         template_html: str,
         dest_path: Path,
@@ -191,6 +192,7 @@ def generate_pages_recursive(basepath: str,
         for item in sorted(from_path.iterdir()):
             if item.is_dir():
                 generate_from_contents(
+                    basepath,
                     item,
                     template_html,
                     dest_path / item.name,
@@ -204,10 +206,10 @@ def generate_pages_recursive(basepath: str,
                     template_html
                     .replace("{{ Title }}", title)
                     .replace("{{ Content }}", content)
-                    .replace('href="/', 'href="{basepath}')
+                    .replace('href="/', f'href="{basepath}')
                 )
 
                 output_path = dest_path / item.with_suffix(".html").name
                 output_path.write_text(page, encoding="utf-8")
 
-    generate_from_contents(source, template_html, target)
+    generate_from_contents(basepath, source, template_html, target)
